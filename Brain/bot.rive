@@ -1,0 +1,57 @@
+! version = 2.0
+
+> object speak python
+from bot import speak
+speak("mcdonald's good afternoon")
+< object
+
+> object save python
+from utills import save
+save(amount,price,description,name)
+< object
+
+
+> topic random
++ (hi|hey|hello)[*]
+- <call>speak</call> now: for order enter 1 ,for complaint enter 2 ,for late orders  enter 3 ,for offers enter 4 ,for contacting an agent enter 5 ,for others enter 6{topic=choices}
+< topic
+>topic choices
++ 1
+-hi please enter your name  {topic=order}
++ 2
+-You will be redirected to your complaint
++3
+-for how long is the order late?
++4
+-here are the offer images,please enter your selected offer number
++5
+-please wait until we redirect you with our agent soon
++6
+-how can i help you?
+<topic
+>topic order
++*
+- <set name =<star>> welcome <get name> please enter your order sandwiches or meals or drinks
++(sandwiches|meals|drinks|sides|ice cream|apple pie)
+*<star> == sandwiches => chicken or beef ? {topic=sandwich}
+*<star1> == meals => chicken or beef ?{topic=meal}
+*<star2> == drinks => cola, fanta, seven up, milk shake, or mcfizz?{topic=drinks}
+<topic
+>topic sandwich
++*
+-<set description=<star>> nice choice ,How many sandwiches?
++*
+-<set amount<star>>it seems you like sandwiches!! it is for 50 LE only <set price=50>{topic=random}
+<topic
+>topic meal
++*
+-<set description=<star>>nice choice how many meals?
++*
+-<set amount <star >>enjoy the meal!! it is for 80 LE only <set price =80>{topic=random}
+<topic
+>topic drinks
++*
+-<set description=<star>>nice choice how many drinks?
++*
+-<set amount<star>>it is for 30 LE enjoy the drink!!<set price=30>{topic=random}
+<topic
